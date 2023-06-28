@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseUUIDPipe,
@@ -28,5 +29,10 @@ export class UsersController {
   @Post()
   async createUser(@Body() body: CreateUserDto) {
     await this.usersService.createUser(body);
+  }
+
+  @Delete(':id')
+  async deleteUser(@Param('id', new ParseUUIDPipe()) id: string) {
+    await this.usersService.deleteUser(id);
   }
 }

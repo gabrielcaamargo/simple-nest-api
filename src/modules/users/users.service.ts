@@ -26,7 +26,7 @@ export class UsersService {
   }
 
   async createUser(data: CreateUserDto) {
-    const userExists = await this.userRepository.findBy({
+    const userExists = await this.userRepository.findOneBy({
       username: data.username,
     });
 
@@ -40,5 +40,15 @@ export class UsersService {
     const user = this.userRepository.create(data);
 
     return await this.userRepository.save(user);
+  }
+
+  async deleteUser(id: string) {
+    const user = await this.userRepository.findOneBy({ id });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
+    }
+
+    await this.userRepository.softDelete(id);
   }
 }
