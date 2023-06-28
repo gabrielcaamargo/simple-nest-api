@@ -1,5 +1,13 @@
-import { Controller, Get, Param, ParseUUIDPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
+import { CreateUserDto } from './dtos/create-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -15,5 +23,10 @@ export class UsersController {
     const user = await this.usersService.findUserById(id);
 
     return user;
+  }
+
+  @Post()
+  async createUser(@Body() body: CreateUserDto) {
+    await this.usersService.createUser(body);
   }
 }
